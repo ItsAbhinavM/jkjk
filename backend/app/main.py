@@ -22,12 +22,18 @@ def _db_is_empty() -> bool:
         return db.scalar(select(func.count()).select_from(ActualGeneration)) == 0
 
 
+def _log_task_failure(task: asyncio.Task) -> None:
+    if not task.cancelled() and task.exception():
+        logging.getLogger(__name__).error("Background ingestion failed", exc_info=task.exception())
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
     # Fresh deploys (e.g. an ephemeral container disk) start with an empty DB, so load it in the background.
     if settings.auto_ingest and _db_is_empty():
         app.state.ingest_task = asyncio.create_task(run_ingestion())
+        app.state.ingest_task.add_done_callback(_log_task_failure)
     yield
 
 

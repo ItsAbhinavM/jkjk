@@ -66,18 +66,54 @@ def build_actuals(raw: list) -> pd.DataFrame:
     return _finalise(df.sort_values("start_time"))
 
 
+
 def build_forecasts(raw: list) -> pd.DataFrame:
     """Forecasts for target times in range, unique per (start_time, publish_time)."""
     records = parse_records(raw, ForecastRecord)
+
     if not records:
         return _finalise(_to_frame([]))
-    df = _to_frame(records)
-    df = df[(df["start_time"] >= settings.range_start) & (df["start_time"] <= settings.range_end)]
-    horizon = df["start_time"] - df["publish_time"]
-    df = df[(horizon >= timedelta(0)) & (horizon <= timedelta(hours=settings.forecast_max_horizon_hours))]
-    df = df.drop_duplicates(["start_time", "publish_time"], keep="last")  # keep the latest record in the stream
-    return _finalise(df.sort_values(["start_time", "publish_time"]))
 
+    df = _to_frame(records)
+
+    df = df[
+        (df["start_time"] >= settings.range_start)
+        & (df["start_time"] <= settings.range_end)
+    ]
+
+    in_range = len(df)
+
+    horizon = df["start_time"] - df["publish_time"]
+
+    df = df[
+        (horizon >= timedelta(0))
+        & (
+            horizon
+            <= timedelta(hours=settings.forecast_max_horizon_hours)
+        )
+    ]
+
+    within_horizon = len(df)
+
+    df = df.drop_duplicates(
+        ["start_time", "publish_time"],
+        keep="last",
+    )
+
+    logger.info(
+        "Forecasts: %d raw, %d valid, %d in range, "
+        "%d within %dh horizon, %d after dedupe",
+        len(raw),
+        len(records),
+        in_range,
+        within_horizon,
+        settings.forecast_max_horizon_hours,
+        len(df),
+    )
+
+    return _finalise(
+        df.sort_values(["start_time", "publish_time"])
+    )
 
 def reindex_actuals(df: pd.DataFrame) -> pd.DataFrame:
     """Full 30-minute grid for the target range. Missing slots are NaN, never 0."""
