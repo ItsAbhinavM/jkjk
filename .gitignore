@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 *.db
+!backend/data/wind.db
 .env
 node_modules/
 dist/

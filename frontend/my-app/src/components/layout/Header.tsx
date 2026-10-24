@@ -14,7 +14,7 @@ export default function Header({ sections, active, rangeLabel, loading }: Header
     <header className="sticky top-3 z-30 px-3 sm:px-6">
       <div className="relative mx-auto flex h-14 max-w-7xl items-center gap-3 rounded-full bg-white/90 pl-5 pr-2 shadow-md ring-1 ring-slate-900/5 backdrop-blur">
         <a href="#top" className="whitespace-nowrap font-display text-xl font-semibold">
-          Wind day-ahead
+          Mathy
         </a>
         <nav aria-label="Sections" className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none]">
           <ul className="flex justify-center gap-1">
