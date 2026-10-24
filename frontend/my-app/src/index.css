@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Graph paper: a faint 16px grid with a stronger line every 96px. */
+  body {
+    @apply bg-slate-900 font-sans text-slate-50 antialiased;
+    font-variant-numeric: lining-nums tabular-nums;
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.11) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.11) 1px, transparent 1px),
+      linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
+    background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
+  }
+
+  :focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+  }
+}

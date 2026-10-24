@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     # App
     database_url: str = "sqlite:///./app.db"
     cors_origins: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    cors_origin_regex: str = r"https?://(localhost|127\.0\.0\.1)(:\d+)?"
     auto_ingest: bool = True  # ingest on startup when the DB is empty
 
     # Elexon BMRS (Insights API)
