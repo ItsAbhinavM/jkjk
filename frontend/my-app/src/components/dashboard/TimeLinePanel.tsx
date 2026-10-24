@@ -46,9 +46,9 @@ export default function TimelinePanel({ data }: { data: DataPoint[] }) {
       title="Actual and forecast wind generation"
       description="Hover for exact values. Red shading marks half-hours where the forecast was too high; amber marks where wind beat the forecast."
     >
-      <div className="mb-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-b border-dashed border-slate-600 pb-4">
+      <div className="mb-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-b border-dashed border-slate-200 pb-4">
         <div className={group} role="group" aria-label="Lines to show">
-          <span className="text-sm text-slate-400">Show</span>
+          <span className="text-sm text-slate-500">Show</span>
           <Button active={showActual} disabled={showActual && !showForecast} onClick={() => setShowActual(!showActual)}>
             <span className="h-0.5 w-4" style={{ background: COLORS.actual }} aria-hidden />
             Actual
@@ -60,7 +60,7 @@ export default function TimelinePanel({ data }: { data: DataPoint[] }) {
         </div>
 
         <div className={group} role="group" aria-label="Zoom">
-          <span className="text-sm text-slate-400">Zoom</span>
+          <span className="text-sm text-slate-500">Zoom</span>
           <Button active={win.mode === "24h"} onClick={() => choose("24h")}>
             1 day
           </Button>
@@ -82,7 +82,7 @@ export default function TimelinePanel({ data }: { data: DataPoint[] }) {
             <ChevronRight size={16} aria-hidden />
           </Button>
           {win.mode !== "full" && (
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-slate-500">
               {UNIT[win.mode]} {step + 1} of {steps}
             </span>
           )}

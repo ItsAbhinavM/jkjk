@@ -3,9 +3,9 @@ import { ACCENTS, type Accent } from "../../lib/accent";
 import { cn } from "../../lib/cn";
 
 const BADGE_TONES = {
-  bad: "border-red-400/50 bg-red-500/15 text-red-300",
-  good: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
-  info: "border-blue-400/50 bg-blue-500/15 text-blue-300",
+  bad: "bg-red-100 text-red-700",
+  good: "bg-emerald-100 text-emerald-700",
+  info: "bg-blue-100 text-blue-700",
 };
 
 interface MetricBadgeProps {
@@ -21,18 +21,14 @@ interface MetricBadgeProps {
 /** A KPI tile: a label, one large number and a plain-language explanation. */
 export default function MetricBadge({ label, value, unit, hint, accent = "none", badge, className }: MetricBadgeProps) {
   return (
-    <div className={cn("border border-slate-600 bg-slate-800 p-4", ACCENTS[accent], className)}>
-      <div className="text-sm font-medium text-slate-300">{label}</div>
-      <div className="mt-1 flex items-baseline gap-1.5">
+    <div className={cn("rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-slate-900/5", ACCENTS[accent], className)}>
+      <div className="text-sm font-medium text-slate-600">{label}</div>
+      <div className="mt-2 flex items-baseline gap-1.5">
         <span className="font-display text-5xl font-semibold leading-none">{value}</span>
-        {unit && <span className="text-sm text-slate-400">{unit}</span>}
+        {unit && <span className="text-sm text-slate-500">{unit}</span>}
       </div>
-      {badge && (
-        <span className={cn("mt-3 inline-block border px-2 py-0.5 text-sm font-medium", BADGE_TONES[badge.tone])}>
-          {badge.label}
-        </span>
-      )}
-      {hint && <p className="mt-2 text-sm text-slate-400">{hint}</p>}
+      {badge && <span className={cn("mt-4 inline-block rounded-full px-3 py-1 text-sm font-medium", BADGE_TONES[badge.tone])}>{badge.label}</span>}
+      {hint && <p className="mt-3 text-sm text-slate-500">{hint}</p>}
     </div>
   );
 }

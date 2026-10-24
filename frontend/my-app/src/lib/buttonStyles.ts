@@ -5,13 +5,13 @@ export type ButtonVariant = "primary" | "ghost";
 /** Class names shared by <Button> and anchor links that look like buttons. */
 export function buttonClasses(variant: ButtonVariant = "ghost", active = false, className?: string) {
   return cn(
-    "inline-flex items-center justify-center gap-2 border px-3 py-1.5 text-sm font-medium transition-colors",
+    "inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2 text-sm font-medium transition-colors",
     "disabled:cursor-not-allowed disabled:opacity-40",
-    variant === "primary" && "border-emerald-400 bg-emerald-500 text-slate-900 hover:bg-emerald-400 disabled:hover:bg-emerald-500",
+    variant === "primary" && "border-violet-700 bg-violet-700 text-white hover:bg-violet-600 disabled:hover:bg-violet-700",
     variant === "ghost" &&
       (active
-        ? "border-slate-100 bg-slate-100 text-slate-900"
-        : "border-slate-500 bg-slate-800 text-slate-100 hover:bg-slate-700 disabled:hover:bg-slate-800"),
+        ? "border-violet-200 bg-violet-100 text-violet-900"
+        : "border-slate-300 bg-white text-slate-800 hover:bg-slate-50 disabled:hover:bg-white"),
     className
   );
 }

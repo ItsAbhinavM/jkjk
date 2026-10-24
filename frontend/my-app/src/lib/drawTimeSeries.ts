@@ -113,8 +113,10 @@ export function drawTimeSeries(
       ctx.fillStyle = colour;
       ctx.fill();
     };
-    shade("rgba(239, 68, 68, 0.28)", Math.max);
-    shade("rgba(245, 158, 11, 0.28)", Math.min);
+    shade("rgba(239, 68, 68, 0.22)", Math.max);      // was 0.28
+    shade("rgba(245, 158, 11, 0.25)", Math.min);     // was 0.28
+    ctx.fillStyle = "rgba(255, 255, 255, 0.97)";     // tooltip background (was dark)
+    ctx.roundRect(tx, ty, w, h, 14);                 // tooltip corners (was 6)
   }
 
   const draw = (key: ValueKey, colour: string, dash: number[]) => {

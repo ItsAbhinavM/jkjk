@@ -7,9 +7,9 @@ import FilterBar from "./components/dashboard/FilterBar";
 import Hero from "./components/dashboard/Hero";
 import KpiOverview from "./components/dashboard/KpiOverview";
 import MethodPanel from "./components/dashboard/MethodPanel";
+import ProcurementPanel from "./components/dashboard/ProcurementPanel";
 import TimelinePanel from "./components/dashboard/TimeLinePanel";
 import UncertaintyPanel from "./components/dashboard/UncertaintyPanel";
-import ProcurementPanel from "./components/dashboard/ProcurementPanel";
 import Header from "./components/layout/Header";
 import Section from "./components/layout/Section";
 import { useActiveSection } from "./hooks/useActiveSection";
@@ -21,8 +21,8 @@ import { summariseErrors } from "./lib/summary";
 const SECTIONS = [
   { id: "timeline", label: "Timeline" },
   { id: "accuracy", label: "Accuracy" },
-  { id: "procurement", label: "Procurement" },
   { id: "uncertainty", label: "Uncertainty" },
+  { id: "procurement", label: "Procurement" },
   { id: "data", label: "Data" },
   { id: "method", label: "Method" },
 ] as const;
@@ -50,18 +50,18 @@ export default function App() {
     <div id="top">
       <Header sections={SECTIONS} active={active} rangeLabel={rangeLabel} loading={loading} />
 
-      <main className="mx-auto max-w-7xl space-y-20 px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl space-y-28 px-4 pb-20 pt-12 sm:px-6">
         {error && (
-          <div role="alert" className="flex flex-wrap items-center justify-between gap-3 border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-amber-200">
+          <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-amber-100 px-6 py-4 text-amber-900">
             <span>Couldn't load data: {error}. Check that the backend is running.</span>
             <Button onClick={() => setDateRange([...dateRange])}>Try again</Button>
           </div>
         )}
 
-        <div className="grid gap-4 lg:grid-cols-12">
-          <Hero className="lg:col-span-7" metrics={metrics} summary={summary} loading={loading} />
-          <div id="range" className="scroll-mt-20 lg:col-span-5">
-            <FilterBar key={dateRange.join("_")} value={dateRange} min={FULL_RANGE[0]} max={FULL_RANGE[1]} onApply={setDateRange} className="h-full" />
+        <div className="space-y-5">
+          <Hero metrics={metrics} summary={summary} loading={loading} />
+          <div id="range" className="mx-auto max-w-3xl scroll-mt-24">
+            <FilterBar key={dateRange.join("_")} value={dateRange} min={FULL_RANGE[0]} max={FULL_RANGE[1]} onApply={setDateRange} />
           </div>
         </div>
 
@@ -71,24 +71,14 @@ export default function App() {
 
         <Section id="accuracy" title="Accuracy" intro="How big the misses were, and which way they leaned.">
           {hasMetrics ? (
-            <div className="space-y-4">
+            <div className="space-y-5">
               <KpiOverview metrics={metrics} summary={summary} />
-              <div className="grid gap-4 lg:grid-cols-12">
-                <Card
-                  className="lg:col-span-8"
-                  title="How the errors are spread"
-                  description="Each bar counts half-hours with an error in that range. Dashed lines mark the P10, P50 and P90 errors."
-                >
-                  <ErrorDistributionD3 errors={metrics.error_distribution} p10={metrics.p10} p50={metrics.p50} p90={metrics.p90} height={320} />
-                </Card>
-                <Card className="lg:col-span-4" title="How to read it">
-                  <div className="space-y-3 text-slate-300">
-                    <p>Bars to the right of zero are half-hours where the forecast was too high. Those are the ones that leave you short.</p>
-                    <p>Bars to the left are half-hours where wind beat the forecast.</p>
-                    <p>Solid colour marks the extremes, beyond the P10 and P90 lines.</p>
-                  </div>
-                </Card>
-              </div>
+              <Card
+                title="How the errors are spread"
+                description="Each bar counts half-hours with an error in that range. Bars right of zero are half-hours where the forecast was too high, the ones that leave you short. Dashed lines mark the P10, P50 and P90 errors."
+              >
+                <ErrorDistributionD3 errors={metrics.error_distribution} p10={metrics.p10} p50={metrics.p50} p90={metrics.p90} height={320} />
+              </Card>
             </div>
           ) : loading ? (
             <Card title="Loading the numbers…" />
@@ -114,8 +104,8 @@ export default function App() {
         </Section>
       </main>
 
-      <footer className="border-t border-slate-600 bg-slate-900/95">
-        <p className="mx-auto max-w-7xl px-4 py-6 text-sm text-slate-400 sm:px-6">
+      <footer>
+        <p className="mx-auto max-w-7xl px-4 pb-10 text-center text-sm text-slate-500 sm:px-6">
           Data from Elexon's Balancing Mechanism Reporting Service (BMRS). Times are UTC.
         </p>
       </footer>

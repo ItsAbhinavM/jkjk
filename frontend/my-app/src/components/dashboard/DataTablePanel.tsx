@@ -20,7 +20,7 @@ export default function DataTablePanel({ data, range }: DataTablePanelProps) {
   const index = Math.min(requested, days.length - 1);
   const rows = useMemo(() => data.filter((d) => dayOf(d) === days[index]), [data, days, index]);
 
-  const th = "sticky top-0 bg-slate-800 px-3 py-2 font-medium text-slate-300 border-b border-slate-600";
+  const th = "sticky top-0 bg-slate-50 px-3 py-2 font-medium text-slate-600 border-b border-slate-200";
   const td = "px-3 py-1.5";
 
   return (
@@ -43,7 +43,7 @@ export default function DataTablePanel({ data, range }: DataTablePanelProps) {
           aria-label="Day"
           value={index}
           onChange={(e) => setRequested(Number(e.target.value))}
-          className="border border-slate-500 bg-slate-900 px-3 py-1.5 text-sm text-slate-50 [color-scheme:dark]"
+          className="rounded-full border border-transparent bg-tonal px-4 py-2 text-sm text-slate-900"
         >
           {days.map((day, i) => (
             <option key={day} value={i}>
@@ -55,12 +55,12 @@ export default function DataTablePanel({ data, range }: DataTablePanelProps) {
           Next day
           <ChevronRight size={16} aria-hidden />
         </Button>
-        <span className="text-sm text-slate-400">
+        <span className="text-sm text-slate-500">
           Day {index + 1} of {days.length}
         </span>
       </div>
 
-      <div className="max-h-[28rem] overflow-auto border border-slate-600">
+      <div className="max-h-[28rem] overflow-auto rounded-2xl border border-slate-200">
         <table className="w-full min-w-[32rem] border-collapse text-sm">
           <thead>
             <tr className="text-right">
@@ -73,12 +73,12 @@ export default function DataTablePanel({ data, range }: DataTablePanelProps) {
           </thead>
           <tbody>
             {rows.map((d) => (
-              <tr key={d.start_time} className="border-b border-slate-700 text-right odd:bg-slate-900/40">
+              <tr key={d.start_time} className="border-b border-slate-200 text-right odd:bg-slate-50">
                 <td className={`${td} text-left`}>{d.start_time.slice(11, 16)}</td>
                 <td className={td}>{d.settlement_period}</td>
                 <td className={td}>{fmtMW(d.actual_mw)}</td>
                 <td className={td}>{fmtMW(d.forecast_mw)}</td>
-                <td className={`${td} ${d.error_mw == null ? "" : d.error_mw > 0 ? "text-red-300" : "text-amber-300"}`}>{fmtSigned(d.error_mw)}</td>
+                <td className={`${td} ${d.error_mw == null ? "" : d.error_mw > 0 ? "text-red-600" : "text-amber-700"}`}>{fmtSigned(d.error_mw)}</td>
               </tr>
             ))}
           </tbody>

@@ -14,7 +14,7 @@ export default function UncertaintyPanel({ bandData, coverage, metrics }: Uncert
   const { p10, p90 } = metrics;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-12">
+    <div className="grid gap-5 lg:grid-cols-12">
       <Card
         className="lg:col-span-8"
         title="Where actual output tends to land"
@@ -23,7 +23,7 @@ export default function UncertaintyPanel({ bandData, coverage, metrics }: Uncert
         <QuantileBandChart bandData={bandData} coverage={coverage} height={340} />
       </Card>
 
-      <div className="space-y-4 lg:col-span-4">
+      <div className="space-y-5 lg:col-span-4">
         <MetricBadge
           accent="blue"
           label="Inside the band"
@@ -31,13 +31,13 @@ export default function UncertaintyPanel({ bandData, coverage, metrics }: Uncert
           hint="Share of half-hours where actual output landed inside the shaded band. The band is built to cover 80%."
         />
         <Card title="What to plan for">
-          <div className="space-y-2 text-slate-300">
+          <div className="space-y-2 text-slate-600">
             {p90 != null && p90 > 0 && <p>In 1 of 10 half-hours the forecast was too high by more than {fmtMW(p90)} MW.</p>}
             {p10 != null && p10 < 0 && <p>In 1 of 10 it was too low by more than {fmtMW(-p10)} MW.</p>}
             {(p90 == null || p90 <= 0) && (p10 == null || p10 >= 0) && <p>Errors in this period were small and one-sided.</p>}
           </div>
         </Card>
-        <p className="border border-dashed border-slate-600 p-4 text-sm text-slate-400">
+        <p className="rounded-3xl border border-dashed border-slate-300 p-5 text-sm text-slate-500">
           The band is built from the errors in the dates you picked, so it shows how the forecast behaved here, not a promise for later months.
         </p>
       </div>

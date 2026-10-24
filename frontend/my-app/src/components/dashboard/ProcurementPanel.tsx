@@ -64,15 +64,15 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
   const biased = metrics.bias != null && metrics.bias > BIAS_THRESHOLD_MW;
 
   return (
-    <div className="space-y-4">
-      <div className="grid gap-4 lg:grid-cols-12">
+    <div className="space-y-5">
+      <div className="grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-5" title="Your assumptions" description="The recommendation updates as you change these.">
           <div className="space-y-5">
             <label className="block">
-              <span className="flex items-baseline justify-between text-sm font-medium text-slate-300">
+              <span className="flex items-baseline justify-between text-sm font-medium text-slate-600">
                 Demand to cover
-                <span className="font-display text-3xl font-semibold text-slate-50">
-                  {fmtMW(demand)} <span className="text-sm font-normal text-slate-400">MW</span>
+                <span className="font-display text-3xl font-semibold text-slate-900">
+                  {fmtMW(demand)} <span className="text-sm font-normal text-slate-500">MW</span>
                 </span>
               </span>
               <input
@@ -82,16 +82,16 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
                 step={500}
                 value={demand}
                 onChange={(e) => setDemand(Number(e.target.value))}
-                className="mt-2 w-full accent-emerald-500"
+                className="mt-2 w-full accent-violet-600"
               />
-              <span className="flex justify-between text-xs text-slate-400">
+              <span className="flex justify-between text-xs text-slate-500">
                 <span>{fmtMW(DEMAND_MIN)}</span>
                 <span>{fmtMW(DEMAND_MAX)}</span>
               </span>
             </label>
 
             <div role="group" aria-label="Confidence level">
-              <p className="mb-2 text-sm font-medium text-slate-300">How sure do you need to be?</p>
+              <p className="mb-2 text-sm font-medium text-slate-600">How sure do you need to be?</p>
               <div className="flex flex-wrap gap-2">
                 {CONFIDENCE_LEVELS.map((level) => (
                   <Button key={level} active={confidence === level} onClick={() => setConfidence(level)}>
@@ -99,7 +99,7 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
                   </Button>
                 ))}
               </div>
-              <p className="mt-2 text-sm text-slate-400">
+              <p className="mt-2 text-sm text-slate-500">
                 At {pct(confidence)}, the buffer is sized so that past forecast misses would have been covered in {pct(confidence)} of half-hours.
               </p>
             </div>
@@ -119,7 +119,7 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
         >
           {error ? (
             <div role="alert" className="space-y-3">
-              <p className="text-amber-200">Couldn't calculate: {error}</p>
+              <p className="text-amber-800">Couldn't calculate: {error}</p>
               <Button onClick={retry}>Try again</Button>
             </div>
           ) : hasRows ? (
@@ -127,19 +127,19 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
               <p aria-live="polite" className="font-display text-4xl font-semibold leading-[1.05]">
                 {recommendation}
               </p>
-              <p className="mt-4 text-slate-300">
+              <p className="mt-4 text-slate-600">
                 This is the average for that half-hour across the selected days. The single largest top-up in the period is{" "}
                 {fmtMW(summary.worstMw)} MW.
               </p>
             </>
           ) : (
-            <p className="text-slate-300">{loading ? "Calculating…" : "There are no forecast half-hours in these dates to plan from."}</p>
+            <p className="text-slate-600">{loading ? "Calculating…" : "There are no forecast half-hours in these dates to plan from."}</p>
           )}
         </Card>
       </div>
 
       {biased && (
-        <div role="alert" className="flex gap-3 border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-amber-200">
+        <div role="alert" className="flex gap-3 rounded-3xl bg-amber-100 px-6 py-4 text-amber-900">
           <TriangleAlert className="mt-0.5 shrink-0" size={20} aria-hidden />
           <p>
             In these dates the forecast ran {fmtMW(metrics.bias)} MW too high on average. Buying only what the raw forecast suggests
@@ -149,8 +149,8 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
       )}
 
       {hasRows && (
-        <div className={cn("space-y-4", loading && "opacity-60")}>
-          <div className="grid gap-4 lg:grid-cols-12">
+        <div className={cn("space-y-5", loading && "opacity-60")}>
+          <div className="grid gap-5 lg:grid-cols-12">
             <Card
               className="lg:col-span-8"
               title="Thermal top-up through the day"
@@ -158,7 +158,7 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
             >
               <ProcurementProfileChart profile={summary.profile} peakSlot={peak.mw > 0 ? peak.slot : null} height={300} />
             </Card>
-            <div className="grid gap-4 lg:col-span-4">
+            <div className="grid gap-5 lg:col-span-4">
               <MetricBadge
                 accent="blue"
                 label="Safety buffer"
@@ -174,7 +174,7 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <MetricBadge
               label="Half-hours needing thermal"
               value={summary.needShare == null ? "—" : pct(summary.needShare)}
@@ -197,7 +197,7 @@ export default function ProcurementPanel({ range, data, metrics }: ProcurementPa
               hint="Half-hours skipped because Elexon has no forecast for them."
             />
           </div>
-          <p className="border border-dashed border-slate-600 p-4 text-sm text-slate-400">
+          <p className="rounded-3xl border border-dashed border-slate-300 p-5 text-sm text-slate-500">
             The buffer comes from errors in the dates you picked. It is a planning aid, not a guarantee for later months. Demand is a flat
             figure you set, not a demand forecast.{" "}
             {fmtPct(metrics.mape) !== "—" && `Typical forecast miss in this period: ${fmtPct(metrics.mape)}.`}

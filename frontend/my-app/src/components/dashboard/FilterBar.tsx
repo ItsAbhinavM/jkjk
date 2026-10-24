@@ -40,33 +40,33 @@ export default function FilterBar({ value, min, max, onApply, className }: Filte
     if (!problem && !unchanged) onApply([start, end]);
   };
 
-  const inputClass = "mt-1 block w-full border border-slate-500 bg-slate-900 px-3 py-2 text-slate-50 [color-scheme:dark]";
+  const inputClass = "mt-1.5 block w-full rounded-2xl border border-transparent bg-tonal px-4 py-2.5 text-slate-900";
 
   return (
     <Card title="Dates shown" description="Everything below updates to the dates you pick." className={className}>
-      <form onSubmit={submit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          <label className="block text-sm font-medium text-slate-300">
+      <form onSubmit={submit} className="space-y-5">
+        <div className="grid items-end gap-3 sm:grid-cols-[1fr_1fr_auto]">
+          <label className="block text-sm font-medium text-slate-600">
             From
             <input type="date" value={start} min={min} max={max} onChange={(e) => setStart(e.target.value)} className={inputClass} />
           </label>
-          <label className="block text-sm font-medium text-slate-300">
+          <label className="block text-sm font-medium text-slate-600">
             To
             <input type="date" value={end} min={min} max={max} onChange={(e) => setEnd(e.target.value)} className={inputClass} />
           </label>
+          <Button type="submit" variant="primary" className="py-3" disabled={problem != null || unchanged}>
+            Show these dates
+          </Button>
         </div>
         {problem && (
-          <p role="alert" className="text-sm text-amber-300">
+          <p role="alert" className="text-sm text-amber-700">
             {problem}
           </p>
         )}
-        <Button type="submit" variant="primary" disabled={problem != null || unchanged}>
-          Show these dates
-        </Button>
       </form>
 
-      <div className="mt-5 border-t border-dashed border-slate-600 pt-4">
-        <p className="mb-2 text-sm text-slate-400">Or jump to</p>
+      <div className="mt-6 border-t border-dashed border-slate-200 pt-5">
+        <p className="mb-3 text-sm text-slate-500">Or jump to</p>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map(({ label, range }) => (
             <Button

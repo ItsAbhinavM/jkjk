@@ -26,14 +26,14 @@ interface HeroProps {
 
 export default function Hero({ metrics, summary, loading, className }: HeroProps) {
   return (
-    <Card className={`p-6 sm:p-8 ${className ?? ""}`}>
-      <h1 className="font-display text-xl font-semibold text-slate-300">UK day-ahead wind forecast accuracy</h1>
-      <p className="mt-3 font-display text-4xl font-semibold leading-[1.05] sm:text-5xl">{headline(metrics, summary, loading)}</p>
-      <p className="mt-5 max-w-xl text-slate-300">
+    <Card className={`rounded-[40px] px-6 py-12 text-center sm:px-16 sm:py-16 ${className ?? ""}`}>
+      <h1 className="font-display text-xl font-semibold text-violet-700">UK day-ahead wind forecast accuracy</h1>
+      <p className="mx-auto mt-5 max-w-4xl text-balance font-display text-4xl font-semibold leading-[1.05] sm:text-6xl">{headline(metrics, summary, loading)}</p>
+      <p className="mx-auto mt-6 max-w-xl text-lg text-slate-600">
         When wind comes in under the forecast, the shortfall has to be covered at short notice. This page shows how often that
         happened and by how much.
       </p>
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
         <a href="#timeline" className={buttonClasses("primary")}>
           See the timeline
         </a>
