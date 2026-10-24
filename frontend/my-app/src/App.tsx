@@ -9,6 +9,7 @@ import KpiOverview from "./components/dashboard/KpiOverview";
 import MethodPanel from "./components/dashboard/MethodPanel";
 import TimelinePanel from "./components/dashboard/TimeLinePanel";
 import UncertaintyPanel from "./components/dashboard/UncertaintyPanel";
+import ProcurementPanel from "./components/dashboard/ProcurementPanel";
 import Header from "./components/layout/Header";
 import Section from "./components/layout/Section";
 import { useActiveSection } from "./hooks/useActiveSection";
@@ -20,6 +21,7 @@ import { summariseErrors } from "./lib/summary";
 const SECTIONS = [
   { id: "timeline", label: "Timeline" },
   { id: "accuracy", label: "Accuracy" },
+  { id: "procurement", label: "Procurement" },
   { id: "uncertainty", label: "Uncertainty" },
   { id: "data", label: "Data" },
   { id: "method", label: "Method" },
@@ -97,6 +99,10 @@ export default function App() {
 
         <Section id="uncertainty" title="Uncertainty" intro="The range wind output usually fell in, given how the forecast has behaved.">
           {hasMetrics ? <UncertaintyPanel bandData={bandData} coverage={coverage} metrics={metrics} /> : loading ? <Card title="Loading…" /> : empty}
+        </Section>
+
+        <Section id="procurement" title="Procurement" intro="Set your demand and how sure you need to be. Get the thermal top-up to buy, with a safety buffer for forecast misses.">
+          {hasMetrics ? <ProcurementPanel key={dataKey} range={dataRange} data={data} metrics={metrics} /> : loading ? <Card title="Loading…" /> : empty}
         </Section>
 
         <Section id="data" title="Data" intro="The half-hourly values behind every chart. Download them or browse a day at a time.">
