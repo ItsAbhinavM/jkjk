@@ -2,7 +2,7 @@
 
 A web app for a power buyer. It shows how accurate Elexon's wind forecasts were in January 2026 and recommends how much thermal power to buy the day before.
 
-**Live app:** https://jkjktechnicalassignment.vercel.app
+**Live app:** https://jkjktechnicalassignment.vercel.app </br>
 **API:** https://jkjk-blush.vercel.app/docs
 
 ## What it does
@@ -48,7 +48,7 @@ pip install -r requirements.txt
 cp .env.example .env
 uvicorn app.main:app --reload
 ```
-On first start it downloads January 2026 from Elexon into `app.db` (about a minute). API docs: http://localhost:8000/docs
+On first start it downloads January 2026 from Elexon into `app.db` (about a minute).
 
 **Frontend** (Node 20+)
 ```bash
@@ -69,16 +69,14 @@ docker run -p 8000:8000 wind-api
 
 ## Deployment
 
-Two Vercel projects: the backend ships a prebuilt `data/wind.db` because serverless storage does not persist. Backend env vars: `AUTO_INGEST=false`, `CORS_ORIGINS=["<frontend url>"]`. Frontend env var: `VITE_API_BASE_URL=<backend url>`.
-
+Two Vercel projects: the backend ships a prebuilt `data/wind.db` because serverless storage does not persist. Backend env vars: `CORS_ORIGINS=["<frontend url>"]` and Frontend env var: `VITE_API_BASE_URL=<backend url>`.
+Better keep the depolyment of backend and frontend as two separate projects.
 ## Notes and limits
 
 - Each target half-hour uses the latest forecast published at least 14 hours earlier.
 - Forecast error is forecast minus actual, so positive means the forecast was too high.
 - The buffer is built from January errors, so it describes past behaviour, not a guarantee for other months.
 
-## AI tools
-
-| Tool | Used for |
-|---|---|
-| Claude | Writing and testing code across backend, frontend. Planned, Reviewed, Deployed and run by me. |
+### AI Usage
+Claude : Writing and testing code across backend, frontend. </br>
+Me : Planned, Reviewed, Deployed and run
